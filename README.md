@@ -4,25 +4,25 @@ This project wraps a trained Logistic Regression pipeline in a FastAPI service. 
 
 Python version: Python 3.10+ recommended
 
-1. Clone the repository:
+## Clone the repository:
 
 git clone https://github.com/lakindunethna/Sentiment-api
 cd sentiment-api
 
-2. Create and activate virtual environment:
+## Create and activate virtual environment:
 
 python -m venv venv
 venv\Scripts\activate
 
-3. Install dependencies
+## Install dependencies
 
 pip install -r requirements.txt
 
-4. Start the server with
+## Start the server with
 
 uvicorn app.main:app --reload
 
-5. Example
+## Example
 
 import requests
 
