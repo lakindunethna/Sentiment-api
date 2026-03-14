@@ -1,16 +1,12 @@
-# app/main.py
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Body
 from app.model import load_model, predict
 from app.schemas import PredictRequest, PredictResponse, HealthResponse
+from typing import List
 
 app = FastAPI(title="Sentiment Analysis API")
 
-# Load the model at startup
+# Load model at startup
 load_model()
-
-@app.get("/", response_model=dict)
-def root():
-    return {"message": "Sentiment Analysis API is running!"}
 
 @app.get("/health", response_model=HealthResponse)
 def health():
@@ -18,38 +14,30 @@ def health():
 
 @app.post("/predict", response_model=PredictResponse)
 def predict_endpoint(request: PredictRequest):
-    """
-    Single review prediction.
-    Returns the sentiment and confidence score.
-    """
     try:
-        sentiment, confidence = predict(request.review)
+        sentiment, confidence = predict(request.text)
         return PredictResponse(
-            review=request.review,
+            text=request.text,
             sentiment=sentiment,
             confidence=confidence
         )
-    except Exception:
-        return PredictResponse(
-            review=request.review,
-            sentiment="error",
-            confidence=0.0
-        )
+    except Exception as e:
+        print(f"Error in /predict endpoint: {e}")
+        raise HTTPException(status_code=500, detail="Prediction failed")
 
-@app.post("/predict_batch", response_model=list[PredictResponse])
-def predict_batch_endpoint(requests: list[PredictRequest]):
+@app.post("/predict/batch", response_model=List[PredictResponse])
+def predict_batch_endpoint(requests: List[PredictRequest] = Body(...)):
     """
-    Batch prediction for multiple reviews.
-    Returns a list of sentiment predictions and confidence scores.
+    Accepts JSON array: [{"text": "..."}, {"text": "..."}]
     """
+    if not requests:
+        raise HTTPException(status_code=400, detail="No texts provided")
+
     responses = []
     for req in requests:
-        try:
-            sentiment, confidence = predict(req.review)
-        except Exception:
-            sentiment, confidence = "error", 0.0
+        sentiment, confidence = predict(req.text)
         responses.append(PredictResponse(
-            review=req.review,
+            text=req.text,
             sentiment=sentiment,
             confidence=confidence
         ))

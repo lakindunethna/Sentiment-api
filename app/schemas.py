@@ -1,13 +1,20 @@
-# app/schemas.py
 from pydantic import BaseModel
+from typing import List
 
+# Request model for single prediction
 class PredictRequest(BaseModel):
-    review: str
+    text: str
 
+# Response model for single prediction
 class PredictResponse(BaseModel):
-    review: str
+    text: str
     sentiment: str
     confidence: float
 
+# Health check response
 class HealthResponse(BaseModel):
-    status: str
+    status: str = "ok"
+
+# Batch request model
+class BatchPredictRequest(BaseModel):
+    texts: List[str]

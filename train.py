@@ -8,7 +8,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 # Load dataset
-df = pd.read_csv("data/IMDB_Dataset.csv")  # adjust if your data folder is elsewhere
+df = pd.read_csv("data/IMDB_Dataset.csv") 
 
 # Features and labels
 X = df["review"]
@@ -35,7 +35,6 @@ print("Precision:", precision_score(y_test, pred, pos_label="positive"))
 print("Recall:", recall_score(y_test, pred, pos_label="positive"))
 print("F1 Score:", f1_score(y_test, pred, pos_label="positive"))
 
-# Make sure model folder exists at main project level
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "model")
 os.makedirs(MODEL_DIR, exist_ok=True)
 

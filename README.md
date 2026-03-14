@@ -48,7 +48,8 @@ Method: POST
 
 Endpoint: /predict
 
-Example request body: {
+Example request body: 
+{
   "text": "I absolutely loved this movie! The acting was great."
 }
 
@@ -58,30 +59,22 @@ Method: POST
 
 Endpoint: /predict/batch
 
-Example request body:{
-  "texts": [
-    "This was the best movie I have seen all year!",
-    "Terrible plot and poor acting, I hated it.",
-    "It was okay, nothing special but not bad either."
-  ]
-}
+Example request body:
+[
+  {"text":"This was the best movie I have seen all year!"},
+  {"text":"Terrible plot and poor acting, I hated it."},
+  {"text":"It was okay, nothing special but not bad either."}
+]
 
 #### Using powershell
 
 ##### Single prediction
 
-Invoke-RestMethod -Uri http://127.0.0.1:8000/predict `
--Method POST `
--ContentType "application/json" `
--Body '{"text":"I absolutely loved this movie! The acting was great."}'
+Invoke-RestMethod -Uri http://127.0.0.1:8000/predict -Method POST -ContentType "application/json" -Body '{"text":"This movie was amazing!"}'
 
 ##### Batch prediction
 
-Invoke-RestMethod -Uri http://127.0.0.1:8000/predict/batch `
--Method POST `
--ContentType "application/json" `
--Body '{"texts":["This was the best movie I have seen all year!","Terrible plot and poor acting, I hated it.","It was okay, nothing special but not bad either."]}'
-
+Invoke-RestMethod -Uri http://127.0.0.1:8000/predict/batch -Method POST -ContentType "application/json" -Body '[{"text":"This was the best movie I have seen all year!"},{"text":"Terrible plot and poor acting, I hated it."},{"text":"It was okay, nothing special but not bad either."}]'
 
 
 
