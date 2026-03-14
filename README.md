@@ -6,23 +6,6 @@ This project wraps a trained Logistic Regression pipeline in a FastAPI service. 
 
 Python version: Python 3.10+ recommended
 
-sentiment-api/
-│
-├── app/
-│ ├── main.py # FastAPI app
-│ ├── model.py # Load and predict using trained model
-│ └── schemas.py # Pydantic request/response models
-│
-├── model/ # Trained model
-│ ├── model.pkl
-│ 
-│
-├── train.py # Train the model and save to model/
-├── data/ # Dataset folder
-│ └── IMDB_Dataset.csv
-├── requirements.txt # Python dependencies
-└── README.md # Project documentation
-
 ### Clone the repository:
 
 git clone https://github.com/lakindunethna/Sentiment-api
@@ -59,16 +42,55 @@ GET /health
 
 Returns: {"status": "ok"}
 
-Single Prediction
+### Testing Predictions
 
-POST /predict
-
-Request body:
-
-### Testing
+#### Using swagger 
 
 Open Swagger UI: http://127.0.0.1:8000/docs
 
-Open ReDoc: http://127.0.0.1:8000/redoc
+##### Single prediction 
+
+Method: POST
+
+Endpoint: /predict
+
+Example request body: {
+  "text": "I absolutely loved this movie! The acting was great."
+}
+
+##### Batch prediction
+
+Method: POST
+
+Endpoint: /predict/batch
+
+Example request body:{
+  "texts": [
+    "This was the best movie I have seen all year!",
+    "Terrible plot and poor acting, I hated it.",
+    "It was okay, nothing special but not bad either."
+  ]
+}
+
+#### Using powershell
+
+##### Single prediction
+
+Invoke-RestMethod -Uri http://127.0.0.1:8000/predict `
+-Method POST `
+-ContentType "application/json" `
+-Body '{"text":"I absolutely loved this movie! The acting was great."}'
+
+##### Batch prediction
+
+Invoke-RestMethod -Uri http://127.0.0.1:8000/predict/batch `
+-Method POST `
+-ContentType "application/json" `
+-Body '{"texts":["This was the best movie I have seen all year!","Terrible plot and poor acting, I hated it.","It was okay, nothing special but not bad either."]}'
+
+
+
+
 
 Use these to test all endpoints interactively.
+
