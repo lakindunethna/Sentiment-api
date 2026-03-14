@@ -14,6 +14,7 @@ cd sentiment-api
 ### 2. Create and activate virtual environment : isolates dependencies so nothing conflicts with other Python projects
 
 python -m venv venv
+
 venv\Scripts\activate
 
 ### 3. Install dependencies : ensures the environment has all packages required to run and train the API
