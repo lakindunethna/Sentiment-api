@@ -1,4 +1,4 @@
-# train.py
+import os
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
@@ -8,7 +8,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 # Load dataset
-df = pd.read_csv("data/IMDB_Dataset.csv")  # make sure this CSV is included in your repo
+df = pd.read_csv("data/IMDB_Dataset.csv")  # adjust if your data folder is elsewhere
 
 # Features and labels
 X = df["review"]
@@ -22,7 +22,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Define pipeline
 model = Pipeline([
     ("tfidf", TfidfVectorizer(stop_words="english", max_features=10000)),
-    ("classifier", LogisticRegression())
+    ("classifier", LogisticRegression(max_iter=500))
 ])
 
 # Train the model
@@ -35,9 +35,14 @@ print("Precision:", precision_score(y_test, pred, pos_label="positive"))
 print("Recall:", recall_score(y_test, pred, pos_label="positive"))
 print("F1 Score:", f1_score(y_test, pred, pos_label="positive"))
 
-# Save trained model
-joblib.dump(model, "app/model.pkl")
-print("Model trained and saved as app/model.pkl")
+# Make sure model folder exists at main project level
+MODEL_DIR = os.path.join(os.path.dirname(__file__), "model")
+os.makedirs(MODEL_DIR, exist_ok=True)
 
-# Test
+# Save trained model
+model_path = os.path.join(MODEL_DIR, "model.pkl")
+joblib.dump(model, model_path)
+print(f"Model trained and saved as {model_path}")
+
+# Quick test
 print(model.predict(["This movie was absolutely amazing"]))

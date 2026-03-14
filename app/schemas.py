@@ -1,11 +1,13 @@
+# app/schemas.py
 from pydantic import BaseModel
 
+class PredictRequest(BaseModel):
+    review: str
 
-class TextRequest(BaseModel):
-    text: str
-
-
-class PredictionResponse(BaseModel):
-    text: str
+class PredictResponse(BaseModel):
+    review: str
     sentiment: str
     confidence: float
+
+class HealthResponse(BaseModel):
+    status: str
