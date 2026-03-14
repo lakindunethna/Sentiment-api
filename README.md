@@ -11,12 +11,12 @@ Python version: Python 3.10+ recommended
 git clone https://github.com/lakindunethna/Sentiment-api
 cd sentiment-api
 
-### Create and activate virtual environment:
+### Create and activate virtual environment:isolates dependencies so nothing conflicts with other Python projects
 
 python -m venv venv
 venv\Scripts\activate
 
-### Install dependencies
+### Install dependencies:ensures the environment has all packages required to run and train the API
 
 pip install -r requirements.txt
 
@@ -24,23 +24,17 @@ pip install -r requirements.txt
 
 python train.py
 
-### Start the server with
+### Start the server with:Starts the server so endpoints /predict and /predict/batch are available. --reload automatically updates the server when code changes.
 
 uvicorn app.main:app --reload
 
 ### API Endpoints
 
-Root
-
-GET /
-
-Returns: {"message": "Sentiment Analysis API is running!"}
-
-Health Check
+#### Health Check
 
 GET /health
 
-Returns: {"status": "ok"}
+Returns:{"status": "ok"}
 
 ### Testing Predictions
 
