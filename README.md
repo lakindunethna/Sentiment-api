@@ -2,7 +2,26 @@ This project wraps a trained Logistic Regression pipeline in a FastAPI service. 
 
 # Setup Instructions
 
+### Folder Structure
+
 Python version: Python 3.10+ recommended
+
+sentiment-api/
+│
+├── app/
+│ ├── main.py # FastAPI app
+│ ├── model.py # Load and predict using trained model
+│ └── schemas.py # Pydantic request/response models
+│
+├── model/ # Trained model
+│ ├── model.pkl
+│ 
+│
+├── train.py # Train the model and save to model/
+├── data/ # Dataset folder
+│ └── IMDB_Dataset.csv
+├── requirements.txt # Python dependencies
+└── README.md # Project documentation
 
 ### Clone the repository:
 
@@ -18,15 +37,38 @@ venv\Scripts\activate
 
 pip install -r requirements.txt
 
+### Training the Model
+
+python train.py
+
 ### Start the server with
 
 uvicorn app.main:app --reload
 
-### Example
+### API Endpoints
 
-import requests
+Root
 
-url = "http://127.0.0.1:8000/predict"
-data = {"text": "I love this product!"}
-response = requests.post(url, json=data)
-print(response.json())
+GET /
+
+Returns: {"message": "Sentiment Analysis API is running!"}
+
+Health Check
+
+GET /health
+
+Returns: {"status": "ok"}
+
+Single Prediction
+
+POST /predict
+
+Request body:
+
+### Testing
+
+Open Swagger UI: http://127.0.0.1:8000/docs
+
+Open ReDoc: http://127.0.0.1:8000/redoc
+
+Use these to test all endpoints interactively.
